@@ -1,10 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {IShow, IShowState} from "../../types";
+import {fetchDataGetInfo} from "../SerialDetails/serialDetailsSlice";
 
 const initialState: IShowState = {
     query: '',
     results: [],
+    error:false,
+    loading:false,
 };
 
 export const fetchData = createAsyncThunk<IShow[], string>(
@@ -21,8 +24,6 @@ export const fetchData = createAsyncThunk<IShow[], string>(
     }
 );
 
-
-
 const serialSlice = createSlice({
     name: 'tvShows',
     initialState,
@@ -32,9 +33,17 @@ const serialSlice = createSlice({
         },
     },
     extraReducers: (builder) => {
+        builder.addCase(fetchDataGetInfo.pending, (state) => {
+            state.loading = true;
+            state.error = false;
+        });
         builder.addCase(fetchData.fulfilled, (state, action) => {
+            state.loading = false;
             state.results = action.payload;
-            console.log(state.results);
+        });
+        builder.addCase(fetchDataGetInfo.rejected, (state) => {
+            state.loading = false;
+            state.error = true;
         });
     },
 });

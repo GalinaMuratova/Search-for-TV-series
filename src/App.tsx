@@ -1,7 +1,8 @@
 import React from 'react';
-import './App.css';
 import {Route, Routes} from "react-router-dom";
 import SerialSearch from "./container/SerialSearch/SerialSearch";
+import SerialDetails from "./container/SerialDetails/SerialDetails";
+import './App.css';
 
 
 function App() {
@@ -9,11 +10,7 @@ function App() {
       <>
           <SerialSearch/>
           <Routes>
-              <Route path="/shows/:id" element={(
-                  <>
-                      <h2>Information</h2>
-                  </>
-              )} />
+              <Route path="/shows/:id" element={(<SerialDetails />)} />
           </Routes>
       </>
 
